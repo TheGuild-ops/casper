@@ -56,8 +56,9 @@ sudo ufw allow 9999
 sudo ufw allow 35000
 
 #Key Oluşturma
-sudo chmod -R 777 /etc/casper/validator_keys
+chmod -R 777 /etc/casper/validator_keys
 cd /etc/casper/validator_keys
 casper-client keygen
-sudo systemctl start casper-node-launcher
-systemctl status casper-node-launcher
+cd
+systemctl start casper-node-launcher
+journalctl -u casper-node-launcher -f
