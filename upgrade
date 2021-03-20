@@ -25,7 +25,6 @@ sudo -u casper casper-client /etc/casper/validator_keys
 
 sudo logrotate -f /etc/logrotate.d/casper-node
 sudo systemctl start casper-node-launcher; sleep 2
-systemctl status casper-node-launcher
 
 sudo systemctl stop casper-node-launcher
 sudo logrotate -f /etc/logrotate.d/casper-node
