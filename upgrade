@@ -1,30 +1,25 @@
-# clean up previous version nodes
-sudo systemctl stop casper-node-launcher.service
+apt-get upgrade && apt-get update -y
+sudo apt install gcc g++ pkg-config libssl-dev make wabt jq
 
-sudo rm -rf /etc/casper/1_0_0
-sudo rm -rf /var/lib/casper/bin/1_0_0
-sudo rm -rf /var/lib/casper/casper-node
-sudo rm /etc/casper/casper-node-launcher-state.toml
+#install rust https://www.rust-lang.org/tools/install
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh    
 
-sudo apt remove -y casper-client casper-node-launcher
+git clone https://github.com/CasperLabs/casper-node.git
 
-cd ~
-curl -JLO https://bintray.com/casperlabs/debian/download_file?file_path=casper-client_0.9.3-0_amd64.deb
-curl -JLO https://bintray.com/casperlabs/debian/download_file?file_path=casper-node-launcher_0.3.1-0_amd64.deb
+cd casper-node
 
-sudo apt install -y ./casper-client_0.9.3-0_amd64.deb ./casper-node-launcher_0.3.1-0_amd64.deb
+git fetch
 
-sudo -u casper /etc/casper/pull_casper_node_version.sh 1_0_0 delta-11
-sudo -u casper /etc/casper/config_from_example.sh 1_0_0
+git checkout release-0.9.3
 
-# After genesis a trusted hash is needed in config.toml.  This retrieves and loads it.  Please verify by looking at the top of /etc/casper/1_0_0/config.toml
-sudo sed -i "/trusted_hash =/c\trusted_hash = '$(curl -s 18.144.176.168:8888/status | jq -r .last_added_block_info.hash | tr -d '\n')'" /etc/casper/1_0_0/config.toml
+make setup-rs && make build-client-contracts -j
 
-# If you DO NOT have keys yet, you can create them with this.  KEEP YOUR KEYS.
-sudo -u casper casper-client /etc/casper/validator_keys
+sudo -u casper /etc/casper/pull_casper_node_version.sh 1_0_1 delta-11
+sudo -u casper /etc/casper/config_from_example.sh 1_0_1
 
-sudo logrotate -f /etc/logrotate.d/casper-node
-sudo systemctl start casper-node-launcher; sleep 2
+cat /etc/casper/1_0_1/chainspec.toml | grep activation_point
+
+/var/lib/casper/bin/1_0_1/casper-node --version
 
 sudo systemctl stop casper-node-launcher
 sudo logrotate -f /etc/logrotate.d/casper-node
