@@ -13,6 +13,7 @@ git fetch
 git checkout release-0.9.3
 
 make setup-rs && make build-client-contracts -j
+rm /var/lib/casper/bin/1_0_1 -r
 
 sudo -u casper /etc/casper/pull_casper_node_version.sh 1_0_1 delta-11
 sudo -u casper /etc/casper/config_from_example.sh 1_0_1
