@@ -18,4 +18,5 @@ sudo logrotate -f /etc/logrotate.d/casper-node
 sudo -u casper /etc/casper/pull_casper_node_version.sh 1_0_1 delta-11
 sudo -u casper /etc/casper/config_from_example.sh 1_0_1
 sudo systemctl start casper-node-launcher; sleep 2
+echo "done"
 watch -n 15 'curl -s localhost:8888/status | jq .last_added_block_info; systemctl status casper-node-launcher; sudo tail /var/log/casper/casper-node.stderr.log'
