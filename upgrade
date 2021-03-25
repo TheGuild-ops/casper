@@ -1,3 +1,4 @@
+cd
 git clone https://github.com/CasperLabs/casper-node.git
 cd casper-node
 git fetch
