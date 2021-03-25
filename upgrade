@@ -20,3 +20,4 @@ sudo sed -i "/trusted_hash =/c\trusted_hash = '$(curl -s 18.144.176.168:8888/sta
 sudo logrotate -f /etc/logrotate.d/casper-node
 sudo systemctl start casper-node-launcher; sleep 2
 systemctl status casper-node-launcher
+watch -n 15 'curl -s localhost:8888/status | jq ".peers | length"; curl -s localhost:8888/status | jq .last_added_block_info'
