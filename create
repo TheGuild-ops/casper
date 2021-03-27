@@ -3,6 +3,7 @@ cd
 mkdir casperKeys
 echo "how many account you want create"
 read number
+
 for ((c=0; c < number; c++))
 do
 casper-client keygen /etc/casper/validator_keys-$c
