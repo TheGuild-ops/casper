@@ -10,3 +10,4 @@ casper-client keygen /etc/casper/validator_keys-$c
 cp /etc/casper/validator_keys-$c/public_key.pem /root/casperKeys/$c.pem
 echo $c
 done
+echo "done"
