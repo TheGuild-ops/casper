@@ -1,3 +1,4 @@
+#!/bin/sh
 cd
 mkdir casperKeys
 echo "how many account you want create"
